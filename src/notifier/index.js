@@ -60,7 +60,8 @@ exports.handler = async (event, context, callback) => {
     ];
 
     console.log('Sending updates to ', addresses);
-    console.log(`Update: ${event.Sns.Message}`);
+    console.log(event);
+    console.log(`Update: ${event.Records[0].Sns.Message}`);
 
     addresses.forEach(async addr => {
         axios.post(`${addr}/api/v1/command`, {
