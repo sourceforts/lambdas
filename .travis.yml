@@ -6,8 +6,8 @@ services:
 
 script:
   - pushd src
-  - zip -r sourceforts-server-build-notification-handler.zip src/notifier
-  - popd src
+  - zip -r sourceforts-server-build-notification-handler.zip notifier
+  - popd
   - mv src/sourceforts-server-build-notification-handler.zip .
   - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws s3 sync sourceforts-server-build-notification-handler.zip s3://$AWS_S3_BUCKET/sourceforts-server-build-notification-handler.zip
 
