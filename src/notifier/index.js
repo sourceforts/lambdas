@@ -60,7 +60,7 @@ exports.handler = async (event, context, callback) => {
 
     addresses.forEach(addr => {
         const rcon = Rcon({
-            address,
+            addr,
             password
         });
         
