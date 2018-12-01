@@ -6,6 +6,10 @@ cache: npm
 
 services:
   - docker
+
+install:
+  - npm install
+
 script:
   - pushd src/notifier; zip -r ../../sourceforts-server-build-notification-handler.zip *; popd;
   - docker run -v $(pwd):/tmp -w /tmp -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws s3 cp sourceforts-server-build-notification-handler.zip s3://$AWS_S3_BUCKET/sourceforts-server-build-notification-handler.zip
