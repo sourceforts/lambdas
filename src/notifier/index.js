@@ -59,13 +59,20 @@ exports.handler = async (event, context, callback) => {
 
     console.log('Sending updates to ', addresses);
 
-    addresses.forEach(addr => {
+    addresses.forEach(async addr => {
         const rcon = Rcon({
             address: addr,
-            password
+            password,
         });
-
-        const conn = await rcon.connect();
-        await conn.command(`say "New server version detected. ${event.Sns.Message}"`);
+    
+        rcon.connect().then(() => {
+            rcon.command(`say "New server version detected. ${event.Sns.Message}"`).catch(err => {
+                throw err;
+            });
+        }).catch(err => {
+            throw err;
+        });
     });
 };
+
+
