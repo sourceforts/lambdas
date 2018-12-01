@@ -66,7 +66,7 @@ exports.handler = async (event, context, callback) => {
         });
     
         rcon.connect().then(() => {
-            rcon.command(`say "New server version detected. ${event.Sns.Message}"`).catch(err => {
+            rcon.command(`say [BOT] New server version detected. ${event.Sns.Message}`).catch(err => {
                 throw err;
             });
         }).catch(err => {
