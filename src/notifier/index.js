@@ -64,14 +64,8 @@ exports.handler = async (event, context, callback) => {
             address: addr,
             password
         });
-        
-        rcon.connect()
-            .then(() => rcon.command(`say "New server version detected. ${event.Sns.Message}"`).catch(err => {
-                throw err;
-            }))
-            .then(() => rcon.disconnect())
-            .catch(err => {
-                throw err;
-            });
+
+        const conn = await rcon.connect();
+        await conn.command(`say "New server version detected. ${event.Sns.Message}"`);
     });
 };
