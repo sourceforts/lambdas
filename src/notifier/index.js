@@ -1,7 +1,7 @@
 'use strict';
 
 const AWS = require('aws-sdk');
-const Rcon = require('srcds-rcon');
+const axios = require('axios');
 
 const getPassword = async () => {
     return 'changeme';
@@ -32,6 +32,7 @@ const getPassword = async () => {
 };
 
 const getAddresses = async region => {
+    console.log(`Getting elastic ips for region ${region}`);
     const ec2 = new AWS.EC2({
         region,
     });
@@ -43,14 +44,15 @@ const getAddresses = async region => {
                 return;
             }
 
-            resolve(data.Addresses.map(a => a.PublicIp));
+            const result = data.Addresses.map(a => a.PublicIp);
+            console.log(`Success. Returning addresses ${result}`);
+            resolve(result);
         });
     });
 }
 
 exports.handler = async (event, context, callback) => {
     const password = await getPassword();
-
     const addresses = [
         ...(await getAddresses('eu-west-2')),
         ...(await getAddresses('us-east-1')),
@@ -60,19 +62,12 @@ exports.handler = async (event, context, callback) => {
     console.log('Sending updates to ', addresses);
 
     addresses.forEach(async addr => {
-        const rcon = Rcon({
-            address: addr,
+        console.log(`${addr}/api/v1/command`);
+        axios.post(`${addr}/api/v1/command`, {
+            command: `say [BOT] New server version detected. ${event.Sns.Message}`,
             password,
-        });
-    
-        rcon.connect().then(() => {
-            rcon.command(`say [BOT] New server version detected. ${event.Sns.Message}`).catch(err => {
-                throw err;
-            });
         }).catch(err => {
             throw err;
         });
     });
 };
-
-

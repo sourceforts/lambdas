@@ -10,6 +10,6 @@
   "license": "GPL-3.0",
   "dependencies": {
     "aws-sdk": "^2.368.0",
-    "srcds-rcon": "^2.2.1"
+    "axios": "^0.18.0"
   }
 }
