@@ -60,13 +60,17 @@ exports.handler = async (event, context, callback) => {
 
     addresses.forEach(addr => {
         const rcon = Rcon({
-            addr,
+            address: addr,
             password
         });
         
         rcon.connect()
-            .then(() => rcon.command(`say "New server version detected. ${event.Sns.Message}"`).catch(console.error))
+            .then(() => rcon.command(`say "New server version detected. ${event.Sns.Message}"`).catch(err => {
+                throw err;
+            }))
             .then(() => rcon.disconnect())
-            .catch(console.error);
+            .catch(err => {
+                throw err;
+            });
     });
 };
