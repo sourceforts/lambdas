@@ -59,13 +59,14 @@ exports.handler = async (event, context, callback) => {
         ...(await getAddresses('ap-southeast-2')),
     ];
 
+    const message = event.Records[0].Sns.Message;
+
     console.log('Sending updates to ', addresses);
-    console.log(event);
-    console.log(`Update: ${event.Records[0].Sns.Message}`);
+    console.log(`Update: ${message}`);
 
     addresses.forEach(async addr => {
         axios.post(`${addr}/api/v1/command`, {
-            command: `say [BOT] New server version detected. ${event.Sns.Message}`,
+            command: `say [BOT] New server version detected. ${message}`,
             password,
         })
         .then(console.log)
