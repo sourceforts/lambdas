@@ -4,6 +4,7 @@ const AWS = require('aws-sdk');
 const Rcon = require('srcds-rcon');
 
 const getPassword = async () => {
+    return 'changeme';
     return new Promise((resolve, reject) => {
         const client = new AWS.SecretsManager({
             region: 'eu-west-2',
@@ -48,7 +49,7 @@ const getAddresses = async region => {
 }
 
 exports.handler = async (event, context, callback) => {
-    const password = 'changeme'// await getPassword();
+    const password = await getPassword();
 
     const addresses = [
         ...(await getAddresses('eu-west-2')),
