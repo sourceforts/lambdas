@@ -1,0 +1,15 @@
+{
+  "name": "sourceforts-notifier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Denis Craig",
+  "license": "GPL-3.0",
+  "dependencies": {
+    "aws-sdk": "^2.368.0",
+    "srcds-rcon": "^2.2.1"
+  }
+}
