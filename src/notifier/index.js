@@ -1,18 +1,7 @@
 'use strict';
 
-const DEV = process.env.DEV_MODE == 'true';
-
 const AWS = require('aws-sdk');
 const Rcon = require('srcds-rcon');
-
-if (DEV) {
-  AWS.config.update({
-    accessKeyId: process.env.AWS_ACCESS_KEY_ID || 'aaa',
-    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || 'bbb',
-    region: process.env.AWS_REGION || 'us-west-2',
-    endpoint: process.env.AWS_DYNAMODB_ENDPOINT
-  });
-}
 
 const getPassword = async () => {
     return new Promise((resolve, reject) => {
