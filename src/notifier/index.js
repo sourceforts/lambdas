@@ -69,7 +69,7 @@ exports.handler = async (event, context, callback) => {
     // TODO; get the message from the SNS topic
     console.log(event);
 
-    const password = await getPassword();
+    const password = 'changeme'// await getPassword();
 
     const addresses = [
         ...(await getAddresses('eu-west-2')),

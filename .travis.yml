@@ -1,0 +1,16 @@
+language: node_js
+cache: npm
+
+script:
+  - zip -r sourceforts-server-build-notification-handler.zip src/notifier
+
+deploy:
+  provider: script
+  script: bash .travisci/deploy.sh
+  on:
+    branch: master
+
+after_success:
+  - ./.travisci/send.sh success $DISCORD_WEBHOOK_URL
+after_failure:
+  - ./.travisci/send.sh failure $DISCORD_WEBHOOK_URL
