@@ -35,11 +35,14 @@ exports.handler = async (event, context) => {
     console.log('Sending updates to ', addresses);
     console.log(`Update: ${message}`);
 
-    addresses.forEach(async addr => {
-        try {
-            await axios.post(`${addr}/api/v1/request-update`, { message });
-        } catch (error) {
-            context.done(null, error);
+    try {
+        for (const addr of addresses) {
+            await axios.post(`http://${addr}/api/v1/request-update`, { message });
         }
-    });
+    } catch (error) {
+        console.log(error);
+        context.done(null, error);
+    }
+
+    console.log('Done!');
 };
