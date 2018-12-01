@@ -67,7 +67,7 @@ exports.handler = async (event, context, callback) => {
             command: `say [BOT] New server version detected. ${event.Sns.Message}`,
             password,
         })
-        then(console.log)
+        .then(console.log)
         .catch(err => {
             throw err;
         });
