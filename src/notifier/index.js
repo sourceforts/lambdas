@@ -60,13 +60,15 @@ exports.handler = async (event, context, callback) => {
     ];
 
     console.log('Sending updates to ', addresses);
+    console.log(`Update: ${event.Sns.Message}`);
 
     addresses.forEach(async addr => {
-        console.log(`${addr}/api/v1/command`);
         axios.post(`${addr}/api/v1/command`, {
             command: `say [BOT] New server version detected. ${event.Sns.Message}`,
             password,
-        }).catch(err => {
+        })
+        then(console.log)
+        .catch(err => {
             throw err;
         });
     });
