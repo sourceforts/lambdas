@@ -47,13 +47,6 @@ const getAddresses = async region => {
     });
 }
 
-const getRconConnection = (address, password) => {
-    return Rcon({
-        address,
-        password
-    }).connect();
-};
-
 exports.handler = async (event, context, callback) => {
     const password = 'changeme'// await getPassword();
 
@@ -63,11 +56,17 @@ exports.handler = async (event, context, callback) => {
         ...(await getAddresses('ap-southeast-2')),
     ];
 
-    addresses.forEach(addr => {
-        const conn = getRconConnection(addr, password);
+    console.log('Sending updates to ', addresses);
 
-        conn.then(() => {
-            conn.command(`say "New server version detected. ${event.Sns.Message}"`).catch(console.error);
-        }).catch(console.error);
+    addresses.forEach(addr => {
+        const rcon = Rcon({
+            address,
+            password
+        });
+        
+        rcon.connect()
+            .then(() => rcon.command(`say "New server version detected. ${event.Sns.Message}"`).catch(console.error))
+            .then(() => rcon.disconnect())
+            .catch(console.error);
     });
 };
