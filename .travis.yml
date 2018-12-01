@@ -2,7 +2,10 @@ language: node_js
 cache: npm
 
 script:
+  - pushd src
   - zip -r sourceforts-server-build-notification-handler.zip src/notifier
+  - popd src
+  - mv src/sourceforts-server-build-notification-handler.zip .
 
 deploy:
   provider: script
