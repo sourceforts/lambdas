@@ -55,9 +55,6 @@ const getRconConnection = (address, password) => {
 };
 
 exports.handler = async (event, context, callback) => {
-    // TODO; get the message from the SNS topic
-    console.log(event);
-
     const password = 'changeme'// await getPassword();
 
     const addresses = [
@@ -70,7 +67,7 @@ exports.handler = async (event, context, callback) => {
         const conn = getRconConnection(addr, password);
 
         conn.then(() => {
-            conn.command('say "New server version detected."')  
+            conn.command(`say "New server version detected. ${event.Sns.Message}"`);
         });
     });
 };
