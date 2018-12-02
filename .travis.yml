@@ -12,10 +12,10 @@ install:
   - pushd src/invoker; npm install; popd;
 
 script:
-  - pushd src/notifier; zip -r ../../sourceforts-server-build-notification-handler.zip *; popd;
+  - pushd src/notifier; zip -qr ../../sourceforts-server-build-notification-handler.zip *; popd;
   - docker run -v $(pwd):/tmp -w /tmp -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws s3 cp sourceforts-server-build-notification-handler.zip s3://$AWS_S3_BUCKET/sourceforts-server-build-notification-handler.zip
   - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws lambda update-function-code --region eu-west-2 --function-name sourceforts-server-build-notification-handler --s3-bucket $AWS_S3_BUCKET --s3-key sourceforts-server-build-notification-handler.zip --publish
-  - pushd src/invoker; zip -r ../../sourceforts-server-build-invoker.zip *; popd;
+  - pushd src/invoker; zip -qr ../../sourceforts-server-build-invoker.zip *; popd;
   - docker run -v $(pwd):/tmp -w /tmp -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws s3 cp sourceforts-server-build-invoker.zip s3://$AWS_S3_BUCKET/sourceforts-server-build-invoker.zip
   - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws lambda update-function-code --region eu-west-2 --function-name sourceforts-server-build-invoker --s3-bucket $AWS_S3_BUCKET --s3-key sourceforts-server-build-invoker.zip --publish
   - docker run -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY garland/aws-cli-docker aws lambda update-function-configuration --region eu-west-2 --function-name sourceforts-server-build-invoker --environment Variables="{TRAVIS_TOKEN="$TRAVIS_TOKEN"}"
