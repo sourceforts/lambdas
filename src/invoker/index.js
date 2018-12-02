@@ -11,11 +11,11 @@ exports.handler = async (event, context) => {
     };
 
     try {
-        await axios.post('https://api.travis-ci.org/repo/sourceforts/server/requests', {
+        await axios.post('https://api.travis-ci.org/repo/sourceforts%2Fserver/requests', {
             request: {
                 branch: 'master',
             },
-        }, config);   
+        }, config);
     } catch (error) {
         console.log(error);
         context.done(null, error);

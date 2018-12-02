@@ -40,7 +40,7 @@ exports.handler = async (event, context) => {
             await axios.post(`http://${addr}/api/v1/request-update`, { message });
         }
     } catch (error) {
-        console.log(error);
+        console.log(error.response.data);
         context.done(null, error);
     }
 
