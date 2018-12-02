@@ -9,6 +9,7 @@ services:
 
 install:
   - pushd src/notifier; npm install; popd;
+  - pushd src/invoker; npm install; popd;
 
 script:
   - pushd src/notifier; zip -r ../../sourceforts-server-build-notification-handler.zip *; popd;
